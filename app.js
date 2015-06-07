@@ -17,7 +17,7 @@ module.exports = {
 	log: log,
 	root: __dirname,
 	config: config
-}
+};
 
 // express
 var app = express();

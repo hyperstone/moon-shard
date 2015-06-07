@@ -40,4 +40,4 @@ module.exports = {
 	getServers: function () {
 		return [httpServer, httpsServer];
 	}
-}
+};

@@ -24,11 +24,11 @@ function init (servers) {
 		socket.emit('news', {hello: 'world'});
 		socket.on('customEvent', function (data) {
 			log.debug(data);
-		})
+		});
 	});
 }
 
 // export
 module.exports = {
 	init: init
-}
+};
