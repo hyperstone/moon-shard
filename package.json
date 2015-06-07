@@ -1,0 +1,33 @@
+{
+  "name": "moon-shard",
+  "version": "0.0.1",
+  "description": "Best Home Page EU/W",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hyperstone/moon-shard"
+  },
+  "keywords": [
+    "page",
+    "tab",
+    "start",
+    "homepage",
+    "mainpage"
+  ],
+  "author": "Hyperstone",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/hyperstone/moon-shard/issues"
+  },
+  "homepage": "https://github.com/hyperstone/moon-shard",
+  "devDependencies": {
+    "expect.js": "^0.3.1"
+  },
+  "dependencies": {
+    "compact-log": "^0.1.2",
+    "express": "^4.12.4"
+  }
+}
