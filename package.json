@@ -28,6 +28,7 @@
   },
   "dependencies": {
     "compact-log": "^0.1.2",
-    "express": "^4.12.4"
+    "express": "^4.12.4",
+    "socket.io": "^1.3.5"
   }
 }

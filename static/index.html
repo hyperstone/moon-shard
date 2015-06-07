@@ -1,1 +1,8 @@
-example
+<script src="/socket.io/socket.io.js"></script>
+<script>
+	var socket = io.connect(location.protocol + '//localhost');
+	socket.on('news', function (data) {
+		console.log(data);
+		socket.emit('customEvent', { my: 'data' });
+	});
+</script>
