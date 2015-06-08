@@ -30,7 +30,7 @@ function init (servers) {
 			if (data && data.username && data.password) {
 				socket.emit('login', {
 					token: 'exampleToken'
-				})
+				});
 			} else {
 				socket.emit('login', false);
 			}

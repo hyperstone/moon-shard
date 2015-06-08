@@ -7,4 +7,4 @@ function getConfig (name) {
 
 module.exports = {
 	http: getConfig('http')
-}
+};
