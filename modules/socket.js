@@ -23,7 +23,17 @@ function init (servers) {
 	io.on('connection', function (socket) {
 		socket.emit('news', {hello: 'world'});
 		socket.on('customEvent', function (data) {
-			log.debug(data);
+			log.debug('customEvent', data);
+		});
+		socket.on('login', function (data) {
+			log.debug('login', data);
+			if (data && data.username && data.password) {
+				socket.emit('login', {
+					token: 'exampleToken'
+				})
+			} else {
+				socket.emit('login', false);
+			}
 		});
 	});
 }
