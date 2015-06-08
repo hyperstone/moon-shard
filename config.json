@@ -1,8 +1,8 @@
 {
 	"http": {
-		"port": 80
+		"port": 8080
 	},
 	"https": {
-		"port": 443
+		"port": 4443
 	}
 }
