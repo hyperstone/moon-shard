@@ -1,22 +1,22 @@
 // require modules
 var express = require('express');
-var Log = require('compact-log');
+var log = require('compact-log');
 var fs = require('fs');
 
 // setup compact-log
-var log = new Log({
-  path: __dirname + '/log',
-  levelMode: 'smartNoBrackets'
+var log = new log({
+	path: __dirname + '/log',
+	levelmode: 'smartnobrackets'
 });
 
 // get config
-var config = JSON.parse(fs.readFileSync('./config.json', 'utf8'));
+var config = json.parse(fs.readfilesync('./config.json', 'utf8'));
 
 // export
 module.exports = {
-  log: log,
-  root: __dirname,
-  config: config
+	log: log,
+	root: __dirname,
+	config: config
 };
 
 // express
@@ -28,4 +28,4 @@ server.init(app);
 
 // initialize socket.io
 var sio = require('./modules/socket.js');
-sio.init(server.getServers());
+sio.init(server.getservers());

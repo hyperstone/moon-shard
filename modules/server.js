@@ -8,8 +8,8 @@ var express = require('express');
 var config = process.mainModule.exports.config;
 var mainLog = process.mainModule.exports.log;
 var log = mainLog.createNamespace({
-  name: 'HTTP',
-  colors: ['bgYellow', 'black']
+	name: 'HTTP',
+	colors: ['bgYellow', 'black']
 });
 var root = process.mainModule.exports.root;
 
@@ -17,27 +17,27 @@ var root = process.mainModule.exports.root;
 var httpServer, httpsServer;
 
 function init (app) {
-  // static files
-  app.use(express.static(root + '/static'));
+	// static files
+	app.use(express.static(root + '/static'));
 
-  // http
-  httpServer = http.createServer(app).listen(config.http.port, function () {
-    log.info('HTTP is running on port ' + config.http.port);
-  });
+	// http
+	httpServer = http.createServer(app).listen(config.http.port, function () {
+		log.info('HTTP is running on port ' + config.http.port);
+	});
 
-  // redirect https to http
-  httpsServer = https.createServer({
-    key: fs.readFileSync(root + '/ssl/private.key', 'utf8'),
-    cert: fs.readFileSync(root + '/ssl/certificate.crt', 'utf8')
-  }, app).listen(config.https.port, function () {
-    log.info('HTTPS is running on port ' + config.https.port);
-  });
+	// redirect https to http
+	httpsServer = https.createServer({
+		key: fs.readFileSync(root + '/ssl/private.key', 'utf8'),
+		cert: fs.readFileSync(root + '/ssl/certificate.crt', 'utf8')
+	}, app).listen(config.https.port, function () {
+		log.info('HTTPS is running on port ' + config.https.port);
+	});
 }
 
 // export
 module.exports = {
-  init: init,
-  getServers: function () {
-    return [httpServer, httpsServer];
-  }
+	init: init,
+	getServers: function () {
+		return [httpServer, httpsServer];
+	}
 };
