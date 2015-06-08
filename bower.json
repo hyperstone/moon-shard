@@ -1,8 +1,8 @@
 {
-	"name": "moon-shard",
-	"description": "Best Home Page EU/W",
-	"version": "0.0.1",
-	"dependencies": {
-		"semantic-ui": "1.x"
-	}
+  "name": "moon-shard",
+  "description": "Best Home Page EU/W",
+  "version": "0.0.1",
+  "dependencies": {
+    "semantic-ui": "1.x"
+  }
 }

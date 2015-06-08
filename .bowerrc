@@ -1,4 +1,4 @@
 {
-	"directory": "/static/lib/",
-	"analytics": true
+  "directory": "/static/lib/",
+  "analytics": true
 }

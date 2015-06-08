@@ -5,8 +5,8 @@ var fs = require('fs');
 
 // setup compact-log
 var log = new Log({
-	path: __dirname + '/log',
-	levelMode: 'smartNoBrackets'
+  path: __dirname + '/log',
+  levelMode: 'smartNoBrackets'
 });
 
 // get config
@@ -14,9 +14,9 @@ var config = JSON.parse(fs.readFileSync('./config.json', 'utf8'));
 
 // export
 module.exports = {
-	log: log,
-	root: __dirname,
-	config: config
+  log: log,
+  root: __dirname,
+  config: config
 };
 
 // express
