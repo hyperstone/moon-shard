@@ -6,5 +6,6 @@ function getConfig (name) {
 }
 
 module.exports = {
-	http: getConfig('http')
+	http: getConfig('http'),
+	https: getConfig('https')
 };

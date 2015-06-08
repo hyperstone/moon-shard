@@ -1,11 +1,14 @@
-// require
+// require external
 var fs = require('fs');
 var http = require('http');
 var https = require('https');
 var express = require('express');
 
+// require internal
+var config = require('./config');
+
+
 // import from main module
-var config = process.mainModule.exports.config;
 var mainLog = process.mainModule.exports.log;
 var log = mainLog.createNamespace({
 	name: 'HTTP',

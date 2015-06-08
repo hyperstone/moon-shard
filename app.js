@@ -9,14 +9,10 @@ var log = new Log({
 	levelmode: 'smartNoBrackets'
 });
 
-// get config
-var config = JSON.parse(fs.readFileSync('./config.json', 'utf8'));
-
 // export
 module.exports = {
 	log: log,
-	root: __dirname,
-	config: config
+	root: __dirname
 };
 
 // express

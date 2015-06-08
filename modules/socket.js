@@ -1,8 +1,10 @@
-// require
+// require external
 var sio = require('socket.io');
 
+// require internal
+var config = require('./config');
+
 // import from main module
-var config = process.mainModule.exports.config;
 var mainLog = process.mainModule.exports.log;
 var log = mainLog.createNamespace({
 	name: 'socket'
