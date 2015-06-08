@@ -8,7 +8,7 @@ var express = require('express');
 var config = require('./config');
 
 // set up log
-var log = require('./log').log.createNamespace({
+var log = require('./log').createNamespace({
 	name: 'HTTP',
 	colors: ['bgYellow', 'black']
 });
