@@ -9,9 +9,6 @@ var log = require('./log').createNamespace({
 	name: 'socket'
 });
 
-// import from main module
-var root = process.mainModule.exports.root;
-
 // declare global variables
 var io;
 

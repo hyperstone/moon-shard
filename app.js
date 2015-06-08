@@ -1,7 +1,5 @@
 // require external
 var express = require('express');
-var fs = require('fs');
-
 
 // export
 module.exports = {
