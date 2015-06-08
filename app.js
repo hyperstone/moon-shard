@@ -1,17 +1,10 @@
-// require modules
+// require external
 var express = require('express');
-var Log = require('compact-log');
 var fs = require('fs');
 
-// setup compact-log
-var log = new Log({
-	path: __dirname + '/log',
-	levelmode: 'smartNoBrackets'
-});
 
 // export
 module.exports = {
-	log: log,
 	root: __dirname
 };
 

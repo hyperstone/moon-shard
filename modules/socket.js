@@ -4,11 +4,12 @@ var sio = require('socket.io');
 // require internal
 var config = require('./config');
 
-// import from main module
-var mainLog = process.mainModule.exports.log;
-var log = mainLog.createNamespace({
+// set up log
+var log = require('./log').log.createNamespace({
 	name: 'socket'
 });
+
+// import from main module
 var root = process.mainModule.exports.root;
 
 // declare global variables

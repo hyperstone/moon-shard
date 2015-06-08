@@ -7,13 +7,13 @@ var express = require('express');
 // require internal
 var config = require('./config');
 
-
-// import from main module
-var mainLog = process.mainModule.exports.log;
-var log = mainLog.createNamespace({
+// set up log
+var log = require('./log').log.createNamespace({
 	name: 'HTTP',
 	colors: ['bgYellow', 'black']
 });
+
+// import from main module
 var root = process.mainModule.exports.root;
 
 // declare global variables
