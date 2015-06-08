@@ -6,18 +6,19 @@ var log = new Log({
 	levelMode: 'smartNoBrackets',
 	logLevel: 'info'
 });
+var SimpleChild = require('simple-child');
 
 describe('login', function () {
+	// via http://stackoverflow.com/a/15553045/2857873
+	var socket, child;
+	
 	before(function (done) {
-		var SimpleChild = require('simple-child');
-		var child = new SimpleChild('node ' + __dirname + '/../app.js');
+		child = new SimpleChild('node ' + __dirname + '/../app.js');
 		child.start();
 		setTimeout(function () {
 			done();
 		}, 1000);
 	});
-	// via http://stackoverflow.com/a/15553045/2857873
-	var socket;
 
 	beforeEach(function (done) {
 		// Setup
@@ -63,5 +64,12 @@ describe('login', function () {
 			expect(data).to.be.ok();
 			done();
 		});
+	});
+
+	after(function (done) {
+		child.stop();
+		setTimeout(function () {
+			done();
+		}, 1000);
 	});
 });
