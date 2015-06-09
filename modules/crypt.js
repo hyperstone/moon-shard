@@ -2,8 +2,7 @@
 var crypto = require('crypto');
 
 // require internal
-var config = require('config');
-var db = require('');
+var config = require('./config');
 
 function pepperysalt(password) {
 	var salt = crypto.randomBytes(64).toString('hex');
