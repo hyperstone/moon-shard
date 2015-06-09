@@ -11,11 +11,7 @@ function pepperysalt(password) {
 }
 
 function saltypepper(password, dbpassword, salt) {
-	if (crypto.createHash('sha512').update(password + salt + config.crypto.pepper).digest('base64') == dbpassword) {
-		return true;
-	} else {
-		return false;
-	}
+	return crypto.createHash('sha512').update(password + salt + config.crypto.pepper).digest('base64') == dbpassword;
 }
 
 module.exports = {pepperysalt: pepperysalt, saltypepper: saltypepper};
