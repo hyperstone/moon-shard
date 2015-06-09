@@ -4,6 +4,8 @@ var Link = Router.Link;
 var Route = Router.Route;
 var RouteHandler = Router.RouteHandler;
 
+var socket;
+
 var routes = (
 	<Route>
 		<Route name="main" path="/" handler={App}>
@@ -25,5 +27,27 @@ function renderRoute () {
 }
 
 $(document).ready(function () {
-	console.log('document ready');
+	socket = io.connect(location.protocol + '//localhost:' + location.port || 80);
+	socket.on('connect', function () {
+		console.info('socket connected');
+		// verify login
+		if (!localStorage.loggedIn) {
+			api.verify();
+		} else {
+			renderRoute();
+		}
+	});
+	socket.on('login', function (data) {
+		if (data) {
+			location.href = '#/dashboard';
+		} else {
+			alert('login failed');
+		}
+	});
+	socket.on('verify_session', function (data) {
+		if (!data) {
+			location.href = '#/login';
+		}
+		renderRoute();
+	});
 });

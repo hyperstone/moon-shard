@@ -14,31 +14,6 @@
 	<script src="/components/pages.jsx" type="text/jsx"></script>
 	<script src="/components/main.jsx" type="text/jsx"></script>
 	<script>
-		var socket = io.connect(location.protocol + '//localhost:' + location.port || 80);
-		socket.on('connect', function () {
-			console.info('socket connected');
-			// verify login
-			if (!localStorage.loggedIn) {
-				api.verify();
-			} else {
-				renderRoute();
-			}
-		});
-		socket.on('login', function (data) {
-			if (data) {
-				location.href = '#/dashboard';
-			} else {
-				alert('login failed');
-			}
-		});
-		socket.on('verify_session', function (data) {
-			if (!data) {
-				location.href = '#/login';
-			}
-			renderRoute();
-		});
-	</script>
-	<script>
 		function openSidebar () {
 			$('.sidebar').sidebar('show');
 		}

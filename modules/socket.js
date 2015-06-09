@@ -26,15 +26,19 @@ function init (servers) {
 	// connection listener
 	io.on('connection', function (socket) {
 		socket.on('login', function (data) {
+			log.debug(data);
 			require('./login')(data, socket);
 		});
 		socket.on('logout', function (data) {
+			log.debug(data);
 			require('./logout')(data, socket);
 		});
-		socket.on('register', function(data) {
+		socket.on('register', function (data) {
+			log.debug(data);
 			require('./register')(data, socket);
 		});
-		socket.on('verify_session', function(data) {
+		socket.on('verify_session', function (data) {
+			log.debug(data);
 			require('./sessions').verify_session(data, socket);
 		});
 	});
