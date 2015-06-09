@@ -67,7 +67,7 @@ var Register = React.createClass({
 		}
 	},
 	register: function register () {
-		alert('not implemented');
+		api.register(this.state.email, this.state.password, this.state.username);
 	},
 	change: function (key, event) {
 		var nextState = {}
@@ -96,9 +96,12 @@ var Register = React.createClass({
 		
 		// assign classes
 		for (var i = 0; i < 3; i++) {
-			if (this.state.step > i) {
+			if (i === 0 && this.state.email && this.state.password) {
 				classes.steps[i] += ' completed';
-			} else if (this.state.step === i) {
+			} else if (i === 1 && this.state.username) {
+				classes.steps[i] += ' completed';
+			}
+			if (i === this.state.step) {
 				classes.steps[i] += ' active';
 			}
 		}
@@ -115,14 +118,14 @@ var Register = React.createClass({
 			case 0:
 				stepContent = (
 					<form className="ui form">
-						<div className="required field">
+						<div className="field">
 							<label>E-Mail</label>
 							<div className="ui icon input">
 								<input type="email" placeholder="your@e-mail.tld" value={this.state.email} onChange={this.changeEmail} required/>
 								<i className="mail icon"></i>
 							</div>
 						</div>
-						<div className="required field">
+						<div className="field">
 							<label>Password</label>
 							<div className="ui icon input">
 								<input type="password" value={this.state.password} onChange={this.changePassword} required/>
@@ -144,7 +147,7 @@ var Register = React.createClass({
 			case 1:
 				stepContent = (
 					<form className="ui form">
-						<div className="required field">
+						<div className="field">
 							<label>Username</label>
 							<div className="ui icon input">
 								<input type="text" placeholder="username" value={this.state.username} onChange={this.changeUsername} required/>
@@ -203,7 +206,7 @@ var Register = React.createClass({
 		}
 
 		return (
-			<div className="ui segment">
+			<div className="ui piled segment">
 				<div className="ui small steps">
 					<div className={classes.steps[0]}>
 						<i className="sign in icon"></i>
@@ -234,19 +237,22 @@ var Register = React.createClass({
 });
 
 var LoginMain = React.createClass({
-	render: function () {
+	login: function login () {
+		api.login();
+	},
+	render: function render () {
 		return (
-			<div className="ui segment">
+			<div className="ui piled segment">
 				<form className="ui form">
 					<div className="three fields">
-						<div className="required field">
+						<div className="field">
 							<label>E-Mail</label>
 							<div className="ui icon input">
 								<input type="email" placeholder="your@e-mail.tld" required/>
 								<i className="mail icon"></i>
 							</div>
 						</div>
-						<div className="required field">
+						<div className="field">
 							<label>Password</label>
 							<div className="ui icon input">
 								<input type="password"/>
@@ -255,7 +261,7 @@ var LoginMain = React.createClass({
 						</div>
 						<div className="field">
 							<label>Action</label>
-							<input type="submit" className="ui submit button" onClick={login} value="Login"></input>
+							<input type="submit" className="ui fluid submit button" onClick={this.login} value="Login"></input>
 						</div>
 					</div>
 				</form>

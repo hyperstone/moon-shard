@@ -15,20 +15,39 @@
 	<script src="/components/main.jsx" type="text/jsx"></script>
 	<script>
 		var socket = io.connect(location.protocol + '//localhost:' + location.port || 80);
-		socket.on('news', function (data) {
-			console.log(data);
-			socket.emit('customEvent', { my: 'data' });
+		socket.on('connection', function () {
+			console.info('socket connected');
+		});
+		socket.on('login', function (data) {
+			if (data) {
+				location.href = '#/dashboard';
+			} else {
+				alert('login failed');
+			}
 		});
 	</script>
 	<script>
 		function openSidebar () {
 			$('.sidebar').sidebar('show');
 		}
-		function login () {
-			location.href = '#/dashboard';
-		}
 		function register () {
 			location.href = '#/dashboard';
+		}
+		var api = {
+			login: function apiLogin (email, password) {
+				socket.emit('login', {
+					email: email,
+					password: password
+				});
+			},
+			register: function apiRegister (email, password, username) {
+				socket.emit('register', {
+					email: email,
+					password: password,
+					username: username,
+					secret: prompt('Secret?')
+				});
+			}
 		}
 	</script>
 	<style>
