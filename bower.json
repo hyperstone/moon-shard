@@ -3,6 +3,7 @@
 	"description": "Best Home Page EU/W",
 	"version": "0.0.1",
 	"dependencies": {
-		"semantic-ui": "1.x"
+		"semantic-ui": "1.x",
+		"react": "0.x"
 	}
 }
