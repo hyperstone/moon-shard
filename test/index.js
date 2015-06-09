@@ -18,9 +18,10 @@ describe('login', function () {
 		db.setup();
 		child = new SimpleChild('node ' + __dirname + '/../app.js');
 		child.start();
-		setTimeout(function () {
-			done();
-		}, 1000);
+		var pw = crypt.pepperysalt('test');
+		db.model.User.create({username: 'test', password: pw.password, email: 'test', salt: pw.salt}, function (err, small) {
+			setTimeout(done, 1000);
+		});
 	});
 
 	beforeEach(function (done) {
@@ -59,17 +60,27 @@ describe('login', function () {
 	});
 	
 	it('should accept valid logins', function (done) {
-		var pw = crypt.pepperysalt('test');
-		db.model.User.create({username: 'test', password: pw.password, email: 'test', salt: pw.salt},
-			function (err, small) {
-				socket.on('login', function (data) {
-					expect(data).to.be.equal(true);
-					done();
-				});
-				socket.emit('login', {
-					email: 'test',
-					password: 'test'
-				});
+		socket.on('login', function (data) {
+			expect(data).to.be.equal(true);
+			done();
+		});
+		socket.emit('login', {
+			email: 'test',
+			password: 'test'
+		});
+	});
+
+	it('should be able to log out', function (done) {
+		socket.on('login', function (data) {
+			socket.on('logout', function(data) {
+				expect(data).to.be.equal(true);
+				done();
+			});
+			socket.emit('logout', {});
+		});
+		socket.emit('login', {
+			email: 'test',
+			password: 'test'
 		});
 	});
 
