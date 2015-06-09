@@ -44,32 +44,190 @@ var About = React.createClass({
 });
 
 var Register = React.createClass({
-	render: function () {
-		return (
-			<div className="ui segment">
-				<form className="ui form">
-					<div className="three fields">
+	getInitialState: function getInitialState () {
+		return {
+			step: 0,
+			username: '',
+			password: '',
+			email: ''
+		}
+	},
+	nextStep: function nextStep () {
+		if (this.state.step < 2) {
+			this.setState({
+				step: this.state.step + 1
+			});
+		}
+	},
+	previousStep: function previousStep () {
+		if (this.state.step > 0) {
+			this.setState({
+				step: this.state.step - 1
+			});
+		}
+	},
+	register: function register () {
+		alert('not implemented');
+	},
+	change: function (key, event) {
+		var nextState = {}
+		nextState[key] = event.target.value
+		this.setState(nextState);
+	},
+	changeUsername: function (event) {
+		this.change('username', event);
+	},
+	changePassword: function (event) {
+		this.change('password', event);
+	},
+	changeEmail: function (event) {
+		this.change('email', event);
+	},
+	render: function render () {
+		// basic classes
+		var classes = {
+			steps: [
+				'step',
+				'step',
+				'step'
+			],
+			registerButton: 'ui positive button'
+		}
+		
+		// assign classes
+		for (var i = 0; i < 3; i++) {
+			if (this.state.step > i) {
+				classes.steps[i] += ' completed';
+			} else if (this.state.step === i) {
+				classes.steps[i] += ' active';
+			}
+		}
+
+		var stepContent;
+
+		// validate form
+		if (!this.state.email || !this.state.password || !this.state.username) {
+			classes.registerButton += ' disabled';
+		}
+
+		// generate steps
+		switch (this.state.step) {
+			case 0:
+				stepContent = (
+					<form className="ui form">
 						<div className="required field">
-							<label>Username</label>
+							<label>E-Mail</label>
 							<div className="ui icon input">
-								<input type="text" placeholder="Username"/>
-								<i className="user icon"></i>
+								<input type="email" placeholder="your@e-mail.tld" value={this.state.email} onChange={this.changeEmail} required/>
+								<i className="mail icon"></i>
 							</div>
 						</div>
 						<div className="required field">
 							<label>Password</label>
 							<div className="ui icon input">
-								<input type="password"/>
+								<input type="password" value={this.state.password} onChange={this.changePassword} required/>
 								<i className="lock icon"></i>
 							</div>
 						</div>
-						<div className="field">
-							<label>Action</label>
-							<div className="ui submit button" onClick={register}>Register</div>
+						<div className="ui three wide centered grid">
+							<div className="two columns" style={{padding: 20 + 'px'}}>
+								<div className="ui buttons">
+									<a href="#/login" className="ui negative button">Cancel</a>
+									<div className="or"></div>
+									<div className="ui positive button" onClick={this.nextStep}>Next</div>
+								</div>
+							</div>
+						</div>
+					</form>
+				);
+			break;
+			case 1:
+				stepContent = (
+					<form className="ui form">
+						<div className="required field">
+							<label>Username</label>
+							<div className="ui icon input">
+								<input type="text" placeholder="username" value={this.state.username} onChange={this.changeUsername} required/>
+								<i className="user icon"></i>
+							</div>
+						</div>
+						<div className="ui three wide centered grid">
+							<div className="two columns" style={{padding: 20 + 'px'}}>
+								<div className="ui buttons">
+									<div className="ui button" onClick={this.previousStep}>Back</div>
+									<div className="or"></div>
+									<div className="ui positive button" onClick={this.nextStep}>Next</div>
+								</div>
+							</div>
+						</div>
+					</form>
+				);
+			break;
+			case 2:
+				stepContent = (
+					<div>
+						<table className="ui unstackable table">
+							<thead>
+								<tr>
+									<th>Name</th>
+									<th>Value</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr className="center aligned">
+									<td><i className="mail icon"></i> Email</td>
+									<td>{this.state.email}</td>
+								</tr>
+								<tr>
+									<td><i className="user icon"></i> Username</td>
+									<td>{this.state.username}</td>
+								</tr>
+								<tr>
+									<td><i className="lock icon"></i> Password</td>
+									<td>{this.state.password.length} Characters</td>
+								</tr>
+							</tbody>
+						</table>
+						<div className="ui three wide centered grid">
+							<div className="two columns" style={{padding: 20 + 'px'}}>
+								<div className="ui buttons">
+									<div className="ui button" onClick={this.previousStep}>Back</div>
+									<div className="or"></div>
+									<div className={classes.registerButton} onClick={this.register}>Register</div>
+								</div>
+							</div>
 						</div>
 					</div>
-				</form>
-				<a href="#/">Back to login.</a><br/>
+				);
+			break;
+		}
+
+		return (
+			<div className="ui segment">
+				<div className="ui small steps">
+					<div className={classes.steps[0]}>
+						<i className="sign in icon"></i>
+						<div className="content">
+							<div className="title">Login Data</div>
+						</div>
+					</div>
+					<div className={classes.steps[1]}>
+						<i className="user icon"></i>
+						<div className="content">
+							<div className="title">Username</div>
+						</div>
+					</div>
+					<div className={classes.steps[2]}>
+						<i className="info icon"></i>
+						<div className="content">
+							<div className="title">Confirm</div>
+						</div>
+					</div>
+				</div>
+				<br/>
+				<div>
+					{stepContent}
+				</div>
 			</div>
 		);
 	}
@@ -82,10 +240,10 @@ var LoginMain = React.createClass({
 				<form className="ui form">
 					<div className="three fields">
 						<div className="required field">
-							<label>Username</label>
+							<label>E-Mail</label>
 							<div className="ui icon input">
-								<input type="text" placeholder="Username"/>
-								<i className="user icon"></i>
+								<input type="email" placeholder="your@e-mail.tld" required/>
+								<i className="mail icon"></i>
 							</div>
 						</div>
 						<div className="required field">
@@ -97,11 +255,11 @@ var LoginMain = React.createClass({
 						</div>
 						<div className="field">
 							<label>Action</label>
-							<div className="ui submit button" onClick={login}>Login</div>
+							<input type="submit" className="ui submit button" onClick={login} value="Login"></input>
 						</div>
 					</div>
 				</form>
-				Not signed up yet? <a href="#/register">Create an account.</a><br/>
+				Not signed up yet? <a href="#/login/register">Create an account.</a><br/>
 			</div>
 		);
 	}

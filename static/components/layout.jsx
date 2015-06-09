@@ -35,8 +35,8 @@ var Header = React.createClass({
 	render: function render () {
 		return (
 			<nav className="ui inverted fixed menu">
-				<Link to="/dashboard" className="active item">
-					<i className="dashboard icon"></i> Dashboard
+				<Link to="dashboard" className="item">
+					<i className="dashboard icon"></i> dashboard
 				</Link>
 				<nav className="right menu">
 					<Link to="about" className="item">
