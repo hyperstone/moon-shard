@@ -5,25 +5,53 @@
 	<link rel="stylesheet" href="/lib/semantic-ui/dist/semantic.css"/>
 	<script src="/lib/jquery/dist/jquery.min.js"></script>
 	<script src="/lib/semantic-ui/dist/semantic.min.js"></script>
+	<script src="/lib/react/JSXTransformer.js"></script>
+	<script src="/lib/react/react.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/react-router/0.13.3/ReactRouter.js"></script>
 	<link rel="icon" type="image/png" href="png/moon-shard.png">
 	<script src="/socket.io/socket.io.js"></script>
+	<script src="/components/layout.jsx" type="text/jsx"></script>
+	<script src="/components/pages.jsx" type="text/jsx"></script>
+	<script src="/components/main.jsx" type="text/jsx"></script>
 	<script>
-		var socket = io.connect(location.protocol + '//localhost');
+		var socket = io.connect(location.protocol + '//localhost:' + location.port || 80);
 		socket.on('news', function (data) {
 			console.log(data);
 			socket.emit('customEvent', { my: 'data' });
 		});
 	</script>
-	<script type="text/javascript">
-		$(document).ready(function() {
-			$('.sidebar')
-				.sidebar()
-			;
-		});
+	<script>
 		function openSidebar () {
 			$('.sidebar').sidebar('show');
 		}
+		function login () {
+			location.href = '#/dashboard';
+		}
+		function register () {
+			location.href = '#/dashboard';
+		}
 	</script>
+	<style>
+		.v-container {
+			display: table;
+			width: 100%;
+			height: 100%;
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+		}
+		.v-center-area {
+			display: table-cell;
+			text-align: center;
+			vertical-align: middle;
+		}
+		.v-centered {
+			display: inline-block;
+			text-align: left;
+		}
+	</style>
 </head>
 <body>
 	<div class="ui left vertical inverted labeled icon sidebar menu">
@@ -65,20 +93,7 @@
 		</a>
 	</div>
 	<div class="pusher">
-		<div class="ui inverted fixed menu">
-			<a class="active item">
-				<i class="home icon"></i> Home
-			</a>
-			<a class="item">
-				<i class="mail icon"></i> Messages
-			</a>
-			<a class="item">
-				<i class="user icon"></i> Friends
-			</a>
-			<nav class="right menu">
-				<a onclick="openSidebar();" class="item"><i class="settings icon"></i> settings</a>
-			</nav>
-		</div>
+
 	</div>
 </body>
 </html>
