@@ -6,6 +6,7 @@ var express = require('express');
 
 // require internal
 var config = require('./config');
+var session = require('./sessions').session;
 
 // set up log
 var log = require('./log').createNamespace({
@@ -22,6 +23,9 @@ var httpServer, httpsServer;
 function init (app) {
 	// static files
 	app.use(express.static(root + '/static'));
+
+	// session
+	app.use(session);
 
 	// http
 	httpServer = http.createServer(app).listen(config.http.port, function () {

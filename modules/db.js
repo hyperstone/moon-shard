@@ -8,7 +8,7 @@ var model = {};
 
 function setup() {
 	mongoose.connect(config.db.main);
-	model.User = mongoose.model('User', {username: String, password: String, email: String});
+	model.User = mongoose.model('User', {username: String, password: String, email: String, salt: String});
 }
 
 module.exports = {

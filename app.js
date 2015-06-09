@@ -1,5 +1,6 @@
 // require external
 var express = require('express');
+var sharedsession = require("express-socket.io-session");
 
 // require internal
 var db = require('./modules/db');

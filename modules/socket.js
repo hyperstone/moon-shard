@@ -3,6 +3,7 @@ var sio = require('socket.io');
 
 // require internal
 var config = require('./config');
+var sharedsession = require('./sessions').shared;
 
 // set up log
 var log = require('./log').createNamespace({
@@ -19,6 +20,9 @@ function init (servers) {
 		io.attach(servers[i]);
 	}
 
+	// sessions
+	io.use(sharedsession);
+
 	// connection listener
 	io.on('connection', function (socket) {
 		socket.emit('news', {hello: 'world'});
@@ -34,6 +38,9 @@ function init (servers) {
 			} else {
 				socket.emit('login', false);
 			}
+		});
+		socket.on('register', function(data) {
+			require(register)(data, socket);
 		});
 	});
 }

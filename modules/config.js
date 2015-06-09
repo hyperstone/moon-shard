@@ -11,5 +11,7 @@ module.exports = {
 	http: getConfig('http'),
 	https: getConfig('https'),
 	log: getConfig('log'),
-	db: getConfig('db')
+	db: getConfig('db'),
+	sessions: getConfig('sessions'),
+	crypto: getConfig('crypto')
 };
