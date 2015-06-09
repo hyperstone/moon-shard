@@ -5,11 +5,11 @@ var config = require('./config');
 var session = require('express-session')(config.sessions);
 var sharedsession = require('express-socket.io-session')(session);
 
-function verify_session(socket, data) {
+function verify_session(data, socket) {
 	if(socket.handshake.session.lin) {
-		socket.emit(socket.handshake.session.lin);
+		socket.emit('verify_session', socket.handshake.session.userdata);
 	} else {
-		socket.emit(false);
+		socket.emit('verify_session', false);
 	}
 }
 

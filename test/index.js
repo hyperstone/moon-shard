@@ -84,6 +84,20 @@ describe('login', function () {
 		});
 	});
 
+	it('should be able to verify session', function (done) {
+		socket.on('login', function (data) {
+			socket.on('verify_session', function(data) {
+				expect(data).to.be.eql({username: 'test', email: 'test'});
+				done();
+			});
+			socket.emit('verify_session', {});
+		});
+		socket.emit('login', {
+			email: 'test',
+			password: 'test'
+		});
+	});
+
 	after(function (done) {
 		child.stop();
 		setTimeout(function () {

@@ -35,7 +35,7 @@ function init (servers) {
 			require('./register')(data, socket);
 		});
 		socket.on('verify_session', function(data) {
-			require('./session').verify_session(data, socket);
+			require('./sessions').verify_session(data, socket);
 		});
 	});
 }
