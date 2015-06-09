@@ -17,14 +17,13 @@ var routes = (
 	</Route>
 );
 
-$(document).ready(function () {
-	// verify login
-	if (!localStorage.loggedIn) {
-		location.href = '#/login';
-	}
-
-	// react-router
+function renderRoute () {
+	console.log('rendering route');
 	Router.run(routes, function (Handler) {
 		React.render(<Handler/>, $('.pusher')[0]);
 	});
+}
+
+$(document).ready(function () {
+	console.log('document ready');
 });
