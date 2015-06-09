@@ -10,5 +10,6 @@ function getConfig (name) {
 module.exports = {
 	http: getConfig('http'),
 	https: getConfig('https'),
-	log: getConfig('log')
+	log: getConfig('log'),
+	db: getConfig('db')
 };

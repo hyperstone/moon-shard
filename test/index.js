@@ -6,6 +6,7 @@ var log = new Log({
 	levelMode: 'smartNoBrackets',
 	logLevel: 'info'
 });
+var db = require('../modules/db');
 var SimpleChild = require('simple-child');
 
 describe('login', function () {
@@ -72,4 +73,29 @@ describe('login', function () {
 			done();
 		}, 1000);
 	});
+});
+
+describe('database', function () {
+
+	before(function (done) {
+		db.setup()
+		done();
+	});
+
+	it('should be able to create user', function (done) {
+		db.model.User.create({username: 'bla', password: 'blup', email: 'yolla'});
+		db.model.User.findOne({username: 'bla', password: 'blup', email: 'yolla'}, 'email', function(err, user) {
+			expect(user.email).to.be.equal('yolla');
+			done();
+		});
+	});
+
+	it('should be able to delete user', function (done) {
+		db.model.User.create({username: 'bla', password: 'blup', email: 'yalla'});
+		db.model.User.remove({email: 'yalla'}, function(err) {
+			expect(err).to.be.eql(null);
+			done();
+		});
+	});
+
 });
