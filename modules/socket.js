@@ -25,22 +25,17 @@ function init (servers) {
 
 	// connection listener
 	io.on('connection', function (socket) {
-		socket.emit('news', {hello: 'world'});
-		socket.on('customEvent', function (data) {
-			log.debug('customEvent', data);
-		});
 		socket.on('login', function (data) {
-			log.debug('login', data);
-			if (data && data.username && data.password) {
-				socket.emit('login', {
-					token: 'exampleToken'
-				});
-			} else {
-				socket.emit('login', false);
-			}
+			require('./login')(data, socket);
+		});
+		socket.on('logout', function (data) {
+			require('./logout')(data, socket);
 		});
 		socket.on('register', function(data) {
-			require(register)(data, socket);
+			require('./register')(data, socket);
+		});
+		socket.on('verify_session', function(data) {
+			require('./session').verify_session(data, socket);
 		});
 	});
 }

@@ -1,5 +1,6 @@
 var expect = require('expect.js');
 var config = require('../modules/config');
+var crypt = require('../modules/crypt');
 var sioc = require('socket.io-client');
 var Log = require('compact-log');
 var log = new Log({
@@ -14,6 +15,7 @@ describe('login', function () {
 	var socket, child;
 	
 	before(function (done) {
+		db.setup();
 		child = new SimpleChild('node ' + __dirname + '/../app.js');
 		child.start();
 		setTimeout(function () {
@@ -49,21 +51,25 @@ describe('login', function () {
 	});
 
 	it('should refuse bad logins', function (done) {
-		socket.emit('login', {data: 'data'});
 		socket.on('login', function (data) {
-			expect(data).to.not.be.ok();
+			expect(data).to.be.equal(false);
 			done();
 		});
+		socket.emit('login', {data: 'data'});
 	});
 	
 	it('should accept valid logins', function (done) {
-		socket.emit('login', {
-			username: 'user',
-			password: 'password'
-		});
-		socket.on('login', function (data) {
-			expect(data).to.be.ok();
-			done();
+		var pw = crypt.pepperysalt('test');
+		db.model.User.create({username: 'test', password: pw.password, email: 'test', salt: pw.salt},
+			function (err, small) {
+				socket.on('login', function (data) {
+					expect(data).to.be.equal(true);
+					done();
+				});
+				socket.emit('login', {
+					email: 'test',
+					password: 'test'
+				});
 		});
 	});
 
@@ -78,7 +84,6 @@ describe('login', function () {
 describe('database', function () {
 
 	before(function (done) {
-		db.setup()
 		done();
 	});
 
