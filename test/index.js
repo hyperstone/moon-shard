@@ -83,16 +83,16 @@ describe('database', function () {
 	});
 
 	it('should be able to create user', function (done) {
-		db.model.User.create({username: 'bla', password: 'blup', email: 'yolla'});
-		db.model.User.findOne({username: 'bla', password: 'blup', email: 'yolla'}, 'email', function(err, user) {
-			expect(user.email).to.be.equal('yolla');
-			done();
-		});
+		db.model.User.create({username: 'bla', password: 'blup', email: 'yolla'}, function (err, small) {
+			db.model.User.findOne({username: 'bla', password: 'blup', email: 'yolla'}, 'email', function(err, user) {
+				expect(user.email).to.be.equal('yolla');
+				done();
+			})
+		})
 	});
 
 	it('should be able to delete user', function (done) {
-		db.model.User.create({username: 'bla', password: 'blup', email: 'yalla'});
-		db.model.User.remove({email: 'yalla'}, function(err) {
+		db.model.User.remove({email: 'yolla'}, function(err) {
 			expect(err).to.be.eql(null);
 			done();
 		});

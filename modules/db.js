@@ -11,4 +11,8 @@ function setup() {
 	model.User = mongoose.model('User', {username: String, password: String, email: String});
 }
 
-module.exports = {setup: setup, model: model, mongoose: mongoose};
+module.exports = {
+	setup: setup,
+	model: model,
+	mongoose: mongoose
+};
