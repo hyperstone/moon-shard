@@ -1,0 +1,4 @@
+{
+	"main": "mongodb://localhost/ms_main",
+	"sessions": "mongodb://localhost/ms_sessions"
+}

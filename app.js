@@ -1,10 +1,16 @@
 // require external
 var express = require('express');
 
+// require internal
+var db = require('./modules/db');
+
 // export
 module.exports = {
 	root: __dirname
 };
+
+// set up database
+db.setup();
 
 // express
 var app = express();
