@@ -1,8 +1,8 @@
-function handle(data, socket) {
+function handle(data, socket, callback) {
 	socket.handshake.session.lin = false;
 	socket.handshake.session.userdata = {};
 	socket.handshake.session.save();
-	socket.emit('logout', true);
+	callback(null, true);
 }
 
 module.exports = handle;

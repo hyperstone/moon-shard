@@ -24,21 +24,21 @@ function init (servers) {
 
 	// connection listener
 	io.on('connection', function (socket) {
-		socket.on('login', function (data) {
+		socket.on('login', function (data, callback) {
 			log.debug(data);
-			require('./login')(data, socket);
+			require('./login')(data, socket, callback);
 		});
-		socket.on('logout', function (data) {
+		socket.on('logout', function (data, callback) {
 			log.debug(data);
-			require('./logout')(data, socket);
+			require('./logout')(data, socket, callback);
 		});
-		socket.on('register', function (data) {
+		socket.on('register', function (data, callback) {
 			log.debug(data);
-			require('./register')(data, socket);
+			require('./register')(data, socket, callback);
 		});
-		socket.on('verify_session', function (data) {
+		socket.on('verify_session', function (data, callback) {
 			log.debug(data);
-			require('./sessions').verify_session(data, socket);
+			require('./sessions').verify_session(data, socket, callback);
 		});
 	});
 }
