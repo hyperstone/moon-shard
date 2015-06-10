@@ -52,49 +52,45 @@ describe('login', function () {
 	});
 
 	it('should refuse bad logins', function (done) {
-		socket.on('login', function (data) {
-			expect(data).to.be.equal(false);
+		socket.emit('login', {data: 'data'}, function (error, data) {
+			expect(error).to.be.ok();
+			expect(data).to.not.be.ok();
 			done();
 		});
-		socket.emit('login', {data: 'data'});
 	});
 	
 	it('should accept valid logins', function (done) {
-		socket.on('login', function (data) {
-			expect(data).to.be.equal(true);
-			done();
-		});
 		socket.emit('login', {
 			email: 'test',
 			password: 'test'
+		}, function (error, data) {
+			expect(error).to.not.be.ok();
+			expect(data).to.be.ok();
+			done();
 		});
 	});
 
 	it('should be able to log out', function (done) {
-		socket.on('login', function (data) {
-			socket.on('logout', function(data) {
-				expect(data).to.be.equal(true);
-				done();
-			});
-			socket.emit('logout', {});
-		});
 		socket.emit('login', {
 			email: 'test',
 			password: 'test'
+		}, function (error, data) {
+			socket.emit('logout', {}, function (error, data) {
+				expect(data).to.be.equal(true);
+				done();
+			});
 		});
 	});
 
 	it('should be able to verify session', function (done) {
-		socket.on('login', function (data) {
-			socket.on('verify_session', function(data) {
-				expect(data).to.be.eql({username: 'test', email: 'test'});
-				done();
-			});
-			socket.emit('verify_session', {});
-		});
 		socket.emit('login', {
 			email: 'test',
 			password: 'test'
+		}, function (error, data) {
+			socket.emit('verify_session', {}, function (error, data) {
+				expect(data).to.be.eql({username: 'test', email: 'test'});
+				done();
+			});
 		});
 	});
 
