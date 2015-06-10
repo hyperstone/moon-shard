@@ -2,7 +2,6 @@
 var sio = require('socket.io');
 
 // require internal
-var config = require('./config');
 var sharedsession = require('./sessions').shared;
 
 // set up log

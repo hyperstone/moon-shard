@@ -16,7 +16,7 @@ function handle(data, socket) {
 				socket.emit('login', true);
 			}
 		}
-	})
+	});
 }
 
 module.exports = handle;
