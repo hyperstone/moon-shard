@@ -27,7 +27,9 @@ function renderRoute () {
 }
 
 $(document).ready(function () {
-	socket = io.connect(location.protocol + '//localhost:' + location.port || 80);
+	var url = location.protocol + '//' + location.host;
+	console.log('trying to connect to ' + url)
+	socket = io.connect(url);
 	socket.on('connect', function () {
 		console.info('socket connected');
 		// verify login

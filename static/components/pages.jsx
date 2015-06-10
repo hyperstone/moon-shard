@@ -52,21 +52,61 @@ var Register = React.createClass({
 			email: ''
 		}
 	},
-	nextStep: function nextStep () {
+	nextStep: function nextStep (e) {
+		e.preventDefault();
 		if (this.state.step < 2) {
-			this.setState({
-				step: this.state.step + 1
-			});
+			// check if current step is valid
+			if (this.state.step === 0) {
+				if (this.isValid('email') && this.isValid('password')) {
+					this.setState({
+						step: this.state.step + 1,
+						showErrors: false
+					});
+				} else {
+					this.setState({
+						showErrors: true
+					});
+				}
+			} else {
+				if (this.isValid('username')) {
+					this.setState({
+						step: this.state.step + 1,
+						showErrors: false
+					});
+				} else {
+					this.setState({
+						showErrors: true
+					});
+				}
+			}
+		}
+	},
+	isValid: function (key) {
+		switch (key) {
+			case 'email':
+				var regex = new RegExp("[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?");
+				return regex.test(this.state.email);
+			break;
+			case 'username':
+				return this.state.username.length >= 4;
+			break;
+			case 'password':
+				return this.state.password.length >= 8;
+			break;
+			default:
+				return this.state.email.length > 0 && this.state.username.length > 0 && this.state.password.length >= 8;
 		}
 	},
 	previousStep: function previousStep () {
 		if (this.state.step > 0) {
 			this.setState({
-				step: this.state.step - 1
+				step: this.state.step - 1,
+				showErrors: false
 			});
 		}
 	},
-	register: function register () {
+	register: function register (e) {
+		e.preventDefault();
 		api.register(this.state.email, this.state.password, this.state.username);
 	},
 	change: function (key, event) {
@@ -83,92 +123,165 @@ var Register = React.createClass({
 	changeEmail: function (event) {
 		this.change('email', event);
 	},
-	render: function render () {
-		// basic classes
-		var classes = {
-			steps: [
-				'step',
-				'step',
-				'step'
-			],
-			registerButton: 'ui positive button'
-		}
-		
+	renderSteps: function () {
+		var stepClasses = [
+			'step',
+			'step',
+			'step'
+		];
 		// assign classes
 		for (var i = 0; i < 3; i++) {
-			if (i === 0 && this.state.email && this.state.password) {
-				classes.steps[i] += ' completed';
-			} else if (i === 1 && this.state.username) {
-				classes.steps[i] += ' completed';
+			if (i === 0 && this.isValid('email') && this.isValid('password')) {
+				stepClasses[i] += ' completed';
+			} else if (i === 1 && this.isValid('username')) {
+				stepClasses[i] += ' completed';
 			}
 			if (i === this.state.step) {
-				classes.steps[i] += ' active';
+				stepClasses[i] += ' active';
 			}
 		}
-
-		var stepContent;
-
-		// validate form
-		if (!this.state.email || !this.state.password || !this.state.username) {
-			classes.registerButton += ' disabled';
-		}
-
-		// generate steps
+		return (
+			<div className="ui small steps">
+				<div className={stepClasses[0]}>
+					<i className="sign in icon"></i>
+					<div className="content">
+						<div className="title">Login Data</div>
+					</div>
+				</div>
+				<div className={stepClasses[1]}>
+					<i className="user icon"></i>
+					<div className="content">
+						<div className="title">Username</div>
+					</div>
+				</div>
+				<div className={stepClasses[2]}>
+					<i className="info icon"></i>
+					<div className="content">
+						<div className="title">Confirm</div>
+					</div>
+				</div>
+			</div>
+		);
+	},
+	renderButtons: function renderButtons () {
+		var backButton, nextButton;
+		var nextButtonClasses = 'ui button';
 		switch (this.state.step) {
 			case 0:
-				stepContent = (
-					<form className="ui form">
-						<div className="field">
+				if (this.isValid('email') && this.isValid('password')) {
+					nextButtonClasses += ' positive';
+				}
+				backButton = (<a href="#/login" className="ui negative button">Cancel</a>);
+				nextButton = (<input type="submit" className={nextButtonClasses} value="Next"/>);
+			break;
+			case 1:
+				if (this.isValid('username')) {
+					nextButtonClasses += ' positive';
+				}
+				backButton = (<div className="ui button" onClick={this.previousStep}>Back</div>);
+				nextButton = (<input type="submit" className={nextButtonClasses} value="Next"/>);
+			break;
+			case 2:
+				if (!this.isValid()) {
+					nextButtonClasses += ' disabled';
+				} else {
+					nextButtonClasses += ' positive';
+				}
+				backButton = (<div className="ui button" onClick={this.previousStep}>Back</div>);
+				nextButton = (<input type="submit" className={nextButtonClasses} value="Register"/>);
+			break;
+		}
+		return (
+			<div className="ui three wide centered grid">
+				<div className="two columns" style={{padding: 20 + 'px'}}>
+					<div className="ui buttons">
+						{backButton}
+						<div className="or"></div>
+						{nextButton}
+					</div>
+				</div>
+			</div>
+		);
+	},
+	renderStepContent: function renderStepContent () {
+		switch (this.state.step) {
+			case 0:
+				var emailClasses = 'field';
+				if (this.state.showErrors && !this.isValid('email')) {
+					emailClasses += ' error';
+				}
+				var passwordClasses = 'field';
+				if (this.state.showErrors && !this.isValid('password')) {
+					passwordClasses += ' error';
+				}
+				var errorMessage, emailError, passwordError;
+				if (this.state.showErrors) {
+					if (!this.isValid('email')) {
+						emailError = (<p>Invalid E-Mail Address.</p>);
+					}
+					if (!this.isValid('password')) {
+						passwordError = (<p>Your Password is too short.</p>);
+					}
+					if (emailError || passwordError) {
+						errorMessage = (
+							<div className="ui visible error message">
+								{emailError}
+								{passwordError}
+							</div>
+						);
+					}
+				}
+				return (
+					<form className="ui form" onSubmit={this.nextStep}>
+						{errorMessage}
+						<div className={emailClasses}>
 							<label>E-Mail</label>
 							<div className="ui icon input">
 								<input type="email" placeholder="your@e-mail.tld" value={this.state.email} onChange={this.changeEmail} required/>
 								<i className="mail icon"></i>
 							</div>
 						</div>
-						<div className="field">
+						<div className={passwordClasses}>
 							<label>Password</label>
 							<div className="ui icon input">
 								<input type="password" value={this.state.password} onChange={this.changePassword} required/>
 								<i className="lock icon"></i>
 							</div>
 						</div>
-						<div className="ui three wide centered grid">
-							<div className="two columns" style={{padding: 20 + 'px'}}>
-								<div className="ui buttons">
-									<a href="#/login" className="ui negative button">Cancel</a>
-									<div className="or"></div>
-									<div className="ui positive button" onClick={this.nextStep}>Next</div>
-								</div>
-							</div>
-						</div>
+						{this.renderButtons()}
 					</form>
 				);
 			break;
 			case 1:
-				stepContent = (
-					<form className="ui form">
-						<div className="field">
+				var usernameClasses = 'field';
+				if (this.state.showErrors && !this.isValid('username')) {
+					usernameClasses += ' error';
+				}
+				var errorMessage, usernameError;
+				if (this.state.showErrors && !this.isValid('username')) {
+					errorMessage = (
+						<div className="ui visible error message">
+							<p>Your username is too short.</p>
+						</div>
+					);
+				}
+				return (
+					<form className="ui form" onSubmit={this.nextStep}>
+						{errorMessage}
+						<div className={usernameClasses}>
 							<label>Username</label>
 							<div className="ui icon input">
 								<input type="text" placeholder="username" value={this.state.username} onChange={this.changeUsername} required/>
 								<i className="user icon"></i>
 							</div>
 						</div>
-						<div className="ui three wide centered grid">
-							<div className="two columns" style={{padding: 20 + 'px'}}>
-								<div className="ui buttons">
-									<div className="ui button" onClick={this.previousStep}>Back</div>
-									<div className="or"></div>
-									<div className="ui positive button" onClick={this.nextStep}>Next</div>
-								</div>
-							</div>
-						</div>
+						{this.renderButtons()}
 					</form>
 				);
 			break;
 			case 2:
-				stepContent = (
-					<div>
+				return (
+					<form onSubmit={this.register}>
 						<table className="ui unstackable table">
 							<thead>
 								<tr>
@@ -177,13 +290,13 @@ var Register = React.createClass({
 								</tr>
 							</thead>
 							<tbody>
-								<tr className="center aligned">
-									<td><i className="mail icon"></i> Email</td>
-									<td>{this.state.email}</td>
-								</tr>
 								<tr>
 									<td><i className="user icon"></i> Username</td>
 									<td>{this.state.username}</td>
+								</tr>
+								<tr className="center aligned">
+									<td><i className="mail icon"></i> Email</td>
+									<td>{this.state.email}</td>
 								</tr>
 								<tr>
 									<td><i className="lock icon"></i> Password</td>
@@ -191,46 +304,18 @@ var Register = React.createClass({
 								</tr>
 							</tbody>
 						</table>
-						<div className="ui three wide centered grid">
-							<div className="two columns" style={{padding: 20 + 'px'}}>
-								<div className="ui buttons">
-									<div className="ui button" onClick={this.previousStep}>Back</div>
-									<div className="or"></div>
-									<div className={classes.registerButton} onClick={this.register}>Register</div>
-								</div>
-							</div>
-						</div>
-					</div>
+						{this.renderButtons()}
+					</form>
 				);
 			break;
 		}
-
+	},
+	render: function render () {
 		return (
-			<div className="ui piled segment">
-				<div className="ui small steps">
-					<div className={classes.steps[0]}>
-						<i className="sign in icon"></i>
-						<div className="content">
-							<div className="title">Login Data</div>
-						</div>
-					</div>
-					<div className={classes.steps[1]}>
-						<i className="user icon"></i>
-						<div className="content">
-							<div className="title">Username</div>
-						</div>
-					</div>
-					<div className={classes.steps[2]}>
-						<i className="info icon"></i>
-						<div className="content">
-							<div className="title">Confirm</div>
-						</div>
-					</div>
-				</div>
+			<div className="ui segment">
+				{this.renderSteps()}
 				<br/>
-				<div>
-					{stepContent}
-				</div>
+				{this.renderStepContent()}
 			</div>
 		);
 	}
@@ -242,29 +327,25 @@ var LoginMain = React.createClass({
 	},
 	render: function render () {
 		return (
-			<div className="ui piled segment">
+			<div className="ui segment">
 				<form className="ui form">
-					<div className="three fields">
-						<div className="field">
-							<label>E-Mail</label>
-							<div className="ui icon input">
-								<input type="email" placeholder="your@e-mail.tld" required/>
-								<i className="mail icon"></i>
-							</div>
-						</div>
-						<div className="field">
-							<label>Password</label>
-							<div className="ui icon input">
-								<input type="password"/>
-								<i className="lock icon"></i>
-							</div>
-						</div>
-						<div className="field">
-							<label>Action</label>
-							<input type="submit" className="ui fluid submit button" onClick={this.login} value="Login"></input>
+					<div className="field">
+						<label>E-Mail</label>
+						<div className="ui icon input">
+							<input type="email" placeholder="your@e-mail.tld" required/>
+							<i className="mail icon"></i>
 						</div>
 					</div>
+					<div className="field">
+						<label>Password</label>
+						<div className="ui icon input">
+							<input type="password"/>
+							<i className="lock icon"></i>
+						</div>
+					</div>
+					<input type="submit" className="ui fluid submit button" onClick={this.login} value="Login"></input>
 				</form>
+				<br/>
 				Not signed up yet? <a href="#/login/register">Create an account.</a><br/>
 			</div>
 		);
