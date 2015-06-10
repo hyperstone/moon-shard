@@ -55,17 +55,16 @@ $(document).ready(function () {
 });
 
 var reconnect = {
-	delay: 1000,
+	delay: 1500,
 	attempt: function () {
 		var url = location.protocol + '//' + location.host;
 		var request = $.get(url, function (data) {
 			socket.connect();
 		});
 		request.fail(function () {
-			reconnect.delay += 1000;
-			if (!reconnect.timeout) {
-				reconnect.timeout = setTimeout(reconnect.attempt, reconnect.delay);
-			}
+			console.info('Reconnect failed, trying again in ' + reconnect.delay/1000 + ' seconds.');
+			reconnect.delay += 500;
+			reconnect.timeout = setTimeout(reconnect.attempt, reconnect.delay);
 		});
 	}
 }
