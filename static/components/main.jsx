@@ -20,7 +20,6 @@ var routes = (
 );
 
 function renderRoute () {
-	console.log('rendering route');
 	Router.run(routes, function (Handler) {
 		React.render(<Handler/>, $('.pusher')[0]);
 	});
@@ -29,27 +28,44 @@ function renderRoute () {
 $(document).ready(function () {
 	var url = location.protocol + '//' + location.host;
 	console.log('trying to connect to ' + url)
-	socket = io.connect(url);
+	socket = io.connect(url, {
+		reconnection: false
+	});
 	socket.on('connect', function () {
 		console.info('socket connected');
 		// verify login
-		if (!localStorage.loggedIn) {
-			api.verify();
+		if (localStorage.hasSession) {
+			socket.emit('verify_session', function (err, data) {
+				if (err) {
+					console.info('not logged in');
+					location.href = '#/login';
+				} else {
+					console.info('already logged in');
+					location.href = '#/';
+				}
+				renderRoute();
+			});
 		} else {
 			renderRoute();
 		}
 	});
-	socket.on('login', function (data) {
-		if (data) {
-			location.href = '#/dashboard';
-		} else {
-			alert('login failed');
-		}
-	});
-	socket.on('verify_session', function (data) {
-		if (!data) {
-			location.href = '#/login';
-		}
-		renderRoute();
+	socket.on('disconnect', function () {
+		reconnect.attempt();
 	});
 });
+
+var reconnect = {
+	delay: 1000,
+	attempt: function () {
+		var url = location.protocol + '//' + location.host;
+		var request = $.get(url, function (data) {
+			socket.connect();
+		});
+		request.fail(function () {
+			reconnect.delay += 1000;
+			if (!reconnect.timeout) {
+				reconnect.timeout = setTimeout(reconnect.attempt, reconnect.delay);
+			}
+		});
+	}
+}

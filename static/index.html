@@ -17,29 +17,6 @@
 		function openSidebar () {
 			$('.sidebar').sidebar('show');
 		}
-		function register () {
-			location.href = '#/dashboard';
-		}
-		var api = {
-			login: function apiLogin (email, password) {
-				socket.emit('login', {
-					email: email,
-					password: password
-				});
-			},
-			register: function apiRegister (email, password, username) {
-				socket.emit('register', {
-					email: email,
-					password: password,
-					username: username,
-					secret: prompt('Secret?')
-				});
-			},
-			verify: function apiVerify () {
-				console.log('verifying login');
-				socket.emit('verify_session', false);
-			}
-		}
 	</script>
 	<style>
 		.v-container {

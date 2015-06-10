@@ -10,3 +10,7 @@
 ![moon-shard icon](https://raw.githubusercontent.com/hyperstone/moon-shard/master/static/png/moon-shard.png)
 
 General Purpose Homepage written in Node.js.
+
+## requirements
+- Node.js
+- MongoDB

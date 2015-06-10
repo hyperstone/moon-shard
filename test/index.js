@@ -86,8 +86,8 @@ describe('login', function () {
 		socket.emit('login', {
 			email: 'test',
 			password: 'test'
-		}, function (error, data) {
-			socket.emit('verify_session', {}, function (error, data) {
+		}, function () {
+			socket.emit('verify_session', function (error, data) {
 				expect(data).to.be.eql({username: 'test', email: 'test'});
 				done();
 			});

@@ -2,7 +2,8 @@
 var sio = require('socket.io');
 
 // require internal
-var sharedsession = require('./sessions').shared;
+var sharedSession = require('./sessions').shared;
+var session = require('./sessions').session;
 
 // set up log
 var log = require('./log').createNamespace({
@@ -20,7 +21,7 @@ function init (servers) {
 	}
 
 	// sessions
-	io.use(sharedsession);
+	io.use(sharedSession);
 
 	// connection listener
 	io.on('connection', function (socket) {
@@ -36,9 +37,8 @@ function init (servers) {
 			log.debug(data);
 			require('./register')(data, socket, callback);
 		});
-		socket.on('verify_session', function (data, callback) {
-			log.debug(data);
-			require('./sessions').verify_session(data, socket, callback);
+		socket.on('verify_session', function (callback) {
+			require('./sessions').verify(socket, callback);
 		});
 	});
 }

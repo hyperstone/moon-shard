@@ -21,11 +21,11 @@ var root = process.mainModule.exports.root;
 var httpServer, httpsServer;
 
 function init (app) {
-	// static files
-	app.use(express.static(root + '/static'));
-
 	// session
 	app.use(session);
+
+	// static files
+	app.use(express.static(root + '/static'));
 
 	// http
 	httpServer = http.createServer(app).listen(config.http.port, function () {

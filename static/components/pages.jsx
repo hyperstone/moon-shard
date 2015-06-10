@@ -106,8 +106,30 @@ var Register = React.createClass({
 		}
 	},
 	register: function register (e) {
+		var that = this;
 		e.preventDefault();
-		api.register(this.state.email, this.state.password, this.state.username);
+		socket.emit('register', {
+			email: that.state.email,
+			password: that.state.password,
+			username: that.state.username,
+			secret: prompt('Secret?')
+		}, function (err, data) {
+			if (!err) {
+				socket.emit('login', {
+					email: that.state.email,
+					password: that.state.password
+				}, function (err, data) {
+					if (!err) {
+						localStorage.hasSession = true;
+						location.href = '#/';
+					} else {
+						alert('login failed');
+					}
+				});
+			} else {
+				alert('registration failed')
+			}
+		});
 	},
 	change: function (key, event) {
 		var nextState = {}
@@ -322,28 +344,56 @@ var Register = React.createClass({
 });
 
 var LoginMain = React.createClass({
-	login: function login () {
-		api.login();
+	getInitialState: function getInitialState () {
+		return {
+			email: '',
+			password: ''
+		}
+	},
+	login: function login (e) {
+		var that = this;
+		e.preventDefault();
+		socket.emit('login', {
+			email: that.state.email,
+			password: that.state.password
+		}, function (err, data) {
+			if (!err) {
+				localStorage.hasSession = true;
+				location.href = '#/';
+			} else {
+				alert('login failed');	
+			}
+		})
+	},
+	change: function (key, event) {
+		var nextState = {}
+		nextState[key] = event.target.value
+	},
+	changePassword: function (event) {
+		this.setState({'password': event.target.value});
+	},
+	changeEmail: function (event) {
+		this.setState({'email': event.target.value});
 	},
 	render: function render () {
 		return (
 			<div className="ui segment">
-				<form className="ui form">
+				<form className="ui form" onSubmit={this.login}>
 					<div className="field">
 						<label>E-Mail</label>
 						<div className="ui icon input">
-							<input type="email" placeholder="your@e-mail.tld" required/>
+							<input type="email" onChange={this.changeEmail} placeholder="your@e-mail.tld" required/>
 							<i className="mail icon"></i>
 						</div>
 					</div>
 					<div className="field">
 						<label>Password</label>
 						<div className="ui icon input">
-							<input type="password"/>
+							<input type="password" onChange={this.changePassword} required/>
 							<i className="lock icon"></i>
 						</div>
 					</div>
-					<input type="submit" className="ui fluid submit button" onClick={this.login} value="Login"></input>
+					<input type="submit" className="ui fluid submit button" value="Login"></input>
 				</form>
 				<br/>
 				Not signed up yet? <a href="#/login/register">Create an account.</a><br/>
