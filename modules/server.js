@@ -25,7 +25,7 @@ function init (app) {
 	app.use(session);
 
 	// static files
-	app.use(express.static(root + '/static'));
+	app.use(express.static(root + '/web/dist'));
 
 	// http
 	httpServer = http.createServer(app).listen(config.http.port, function () {

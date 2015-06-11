@@ -1,38 +1,12 @@
-var App = React.createClass({
-	render: function render () {
-		return (
-			<div id="fuck-react">
-				<Header/>
-				<div style={{marginTop: 60 + 'px', marginBottom: 60 + 'px'}}>
-					<RouteHandler/>
-				</div>
-				<Footer/>
-			</div>
-		);
-	},
-	componentDidMount: function componentDidMount () {
-		$('.sidebar')
-			.sidebar()
-		;
-	}
-});
+var React = require('react');
 
-var Login = React.createClass({
-	render: function render () {
-		return (
-			<main className="v-container">
-				<div className="v-center-area">
-					<div className="v-centered">
-						<RouteHandler/>
-					</div>
-				</div>
-			</main>
-		);
-	}
-});
+var Link = require('react-router').Link;
+
+var socket;
 
 var Header = React.createClass({
 	logout: function logout () {
+		console.log(socket);
 		socket.emit('logout', function (err, data) {
 			if (!err) {
 				delete localStorage.hasSession;
@@ -65,12 +39,9 @@ var Header = React.createClass({
 	}
 });
 
-var Footer = React.createClass({
-	render: function () {
-		return (
-			<div className="ui page" style={{textAlign: 'center', marginBottom: 20 + 'px'}}>
-				moon-shard by hyperstone
-			</div>
-		);
+module.exports = {
+	Header: Header,
+	setSocket: function setSocket (s) {
+		socket = s;
 	}
-});
+}
