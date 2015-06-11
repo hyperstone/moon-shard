@@ -4,3 +4,5 @@ log/
 ssl/
 web/dist/
 web/lib/
+static/lib/
+
