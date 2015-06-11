@@ -2,7 +2,10 @@ node_modules/
 log/
 .idea/
 ssl/
+<<<<<<< HEAD
 web/dist/
 web/lib/
 static/lib/
+=======
+>>>>>>> settings
 
