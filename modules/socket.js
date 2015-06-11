@@ -4,7 +4,7 @@ var sio = require('socket.io');
 // require internal
 var sharedSession = require('./sessions').shared;
 var session = require('./sessions').session;
-var reigster = require('./register');
+var register = require('./register');
 
 // set up log
 var log = require('./log').createNamespace({
@@ -41,7 +41,7 @@ function init (servers) {
 			require('./sessions').verify(socket, callback);
 		});
 		socket.on('verify_email', function (data, callback) {
-			reigster.verifyEmail(data, socket, callback);
+			register.verifyEmail(data, socket, callback);
 		});
 	});
 }
