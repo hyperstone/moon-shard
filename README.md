@@ -7,7 +7,7 @@
 [![NPM Dependencies](https://david-dm.org/hyperstone/moon-shard.png)](https://npmjs.com/package/moon-shard)
 [![Code Documentation](https://inch-ci.org/github/hyperstone/moon-shard.svg)](https://inch-ci.org/github/hyperstone/moon-shard)
 
-![moon-shard icon](https://raw.githubusercontent.com/hyperstone/moon-shard/master/src/images/moon-shard.png)
+![moon-shard icon](https://raw.githubusercontent.com/hyperstone/moon-shard/master/web/src/images/moon-shard.png)
 
 General Purpose Homepage written in Node.js.
 
