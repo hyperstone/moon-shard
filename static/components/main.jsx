@@ -10,7 +10,7 @@ var routes = (
 	<Route>
 		<Route name="main" path="/" handler={App}>
 			<Route name="about" handler={About}/>
-			<Route name="dashboard" handler={Dashboard}/>
+			<DefaultRoute name="dashboard" handler={Dashboard}/>
 		</Route>
 		<Route name="login" path="/login" handler={Login}>
 			<Route name="register" handler={Register}/>
@@ -26,12 +26,17 @@ function renderRoute () {
 }
 
 $(document).ready(function () {
+	var routeRendered;
+	$('.dimmer').dimmer({
+		closable: false
+	});
 	var url = location.protocol + '//' + location.host;
 	console.log('trying to connect to ' + url)
 	socket = io.connect(url, {
 		reconnection: false
 	});
 	socket.on('connect', function () {
+		$('.dimmer').dimmer('hide');
 		console.info('socket connected');
 		// verify login
 		if (localStorage.hasSession) {
@@ -43,13 +48,21 @@ $(document).ready(function () {
 					console.info('already logged in');
 					location.href = '#/';
 				}
-				renderRoute();
+				if (!routeRendered) {
+					routeRendered = true;
+					renderRoute();
+				}
 			});
 		} else {
-			renderRoute();
+			location.href = '#/login';
+			if (!routeRendered) {
+				routeRendered = true;
+				renderRoute();
+			}
 		}
 	});
 	socket.on('disconnect', function () {
+		$('.dimmer').dimmer('show');
 		reconnect.attempt();
 	});
 });

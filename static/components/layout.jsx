@@ -32,6 +32,17 @@ var Login = React.createClass({
 });
 
 var Header = React.createClass({
+	logout: function logout () {
+		socket.emit('logout', function (err, data) {
+			if (!err) {
+				delete localStorage.hasSession;
+				location.href = '#/login';
+			}
+		});
+	},
+	openSidebar: function openSidebar () {
+		$('.sidebar').sidebar('show');
+	},
 	render: function render () {
 		return (
 			<nav className="ui inverted fixed menu">
@@ -42,7 +53,10 @@ var Header = React.createClass({
 					<Link to="about" className="item">
 						<i className="info icon"></i> about
 					</Link>
-					<a onClick={openSidebar} className="item">
+					<a onClick={this.logout} className="item">
+						<i className="sign out icon"></i> logout
+					</a>
+					<a onClick={this.openSidebar} className="item">
 						<i className="settings icon"></i> settings
 					</a>
 				</nav>

@@ -75,7 +75,7 @@ describe('login', function () {
 			email: 'test',
 			password: 'test'
 		}, function (error, data) {
-			socket.emit('logout', {}, function (error, data) {
+			socket.emit('logout', function (error, data) {
 				expect(data).to.be.equal(true);
 				done();
 			});

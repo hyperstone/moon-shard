@@ -29,9 +29,8 @@ function init (servers) {
 			log.debug(data);
 			require('./login')(data, socket, callback);
 		});
-		socket.on('logout', function (data, callback) {
-			log.debug(data);
-			require('./logout')(data, socket, callback);
+		socket.on('logout', function (callback) {
+			require('./logout')(socket, callback);
 		});
 		socket.on('register', function (data, callback) {
 			log.debug(data);
