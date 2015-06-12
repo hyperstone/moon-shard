@@ -211,7 +211,7 @@ var Register = React.createClass({
 					}
 				}
 				return (
-					<form className="ui form" onSubmit={this.nextStep}>
+					<form className="ui form" onSubmit={this.nextStep} autocomplete="off">
 						{errorMessage}
 						<div className={emailClasses}>
 							<label>E-Mail</label>
@@ -245,7 +245,7 @@ var Register = React.createClass({
 					);
 				}
 				return (
-					<form className="ui form" onSubmit={this.nextStep}>
+					<form className="ui form" onSubmit={this.nextStep} autocomplete="off">
 						{errorMessage}
 						<div className={usernameClasses}>
 							<label>Username</label>
@@ -260,7 +260,7 @@ var Register = React.createClass({
 			break;
 			case 2:
 				return (
-					<form onSubmit={this.register}>
+					<form onSubmit={this.register} autocomplete="off">
 						<table className="ui unstackable table">
 							<thead>
 								<tr>
