@@ -5,14 +5,8 @@ var sio = require('socket.io');
 var sharedSession = require('./sessions').shared;
 var session = require('./sessions').session;
 var register = require('./register');
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
 var settings = require('./settings');
->>>>>>> settings
-=======
-var settings = require('./settings');
->>>>>>> settings
+
 
 // set up log
 var log = require('./log').createNamespace({
@@ -50,21 +44,12 @@ function init (servers) {
 		});
 		socket.on('verify_email', function (data, callback) {
 			register.verifyEmail(data, socket, callback);
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
->>>>>>> settings
 		});
 		socket.on('set_settings', function (data, callback) {
 			settings.set(data, socket, callback);
 		});
 		socket.on('get_settings', function (callback) {
 			settings.get(socket, callback);
-<<<<<<< HEAD
->>>>>>> settings
-=======
->>>>>>> settings
 		});
 	});
 }
