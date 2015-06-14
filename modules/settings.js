@@ -20,6 +20,7 @@ function set(data, socket, callback) {
 			for (var setting in user.settings) {
 				if (data[setting].length <= config.settings[setting]) {
 					user.settings[setting] = data[setting];
+					user.save();
 				}
 			}
 			callback(null, true);

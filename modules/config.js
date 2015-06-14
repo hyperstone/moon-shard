@@ -14,5 +14,6 @@ module.exports = {
 	db: getConfig('db'),
 	sessions: getConfig('sessions'),
 	crypto: getConfig('crypto'),
-	settings: getConfig('settings')
+	settings: getConfig('settings'),
+	plugins: getConfig('plugins')
 };

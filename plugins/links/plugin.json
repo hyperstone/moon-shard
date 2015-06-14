@@ -1,0 +1,13 @@
+{
+	"binds": {
+		"get_links": {"function": "get", "data": false},
+		"add_link": {"function": "add", "data": true},
+		"remove_link": {"function": "remove", "data": true}
+	},
+	"database": {
+		"required": true,
+		"models": {
+			"Link": {"name": "string", "url": "string", "icon": "string", "user": "string"}
+		}
+	}
+}

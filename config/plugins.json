@@ -1,0 +1,6 @@
+{
+	"path": "plugins",
+	"load": [
+		"links"
+	]
+}

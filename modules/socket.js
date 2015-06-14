@@ -51,6 +51,7 @@ function init (servers) {
 		socket.on('get_settings', function (callback) {
 			settings.get(socket, callback);
 		});
+		require('./plugins').bind(socket);
 	});
 }
 

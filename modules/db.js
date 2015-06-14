@@ -3,6 +3,7 @@ var mongoose = require('mongoose');
 
 // require internal
 var config = require('./config');
+var plugins = require('./plugins');
 
 var model = {};
 
@@ -18,6 +19,7 @@ function setup() {
 	mongoose.connect(config.db.main);
 	model.User = mongoose.model('User', {username: String, password: String, email: String, salt: String,
 		settings: buildSettings()});
+	plugins.db(mongoose, model);
 }
 
 module.exports = {
