@@ -11,11 +11,11 @@ function bind(socket, name) {
 		if (conf.binds[fun].data) {
 			socket.on(name + '.' + fun, function(data, callback){
 				require(path.join(__dirname, '..', config.plugins.path, name, 'plugin'))[fun](data, socket, callback);
-			})
+			});
 		} else {
 			socket.on(name + '.' + fun, function(callback){
 				require(path.join(__dirname, '..', config.plugins.path, name, 'plugin'))[fun](socket, callback);
-			})
+			});
 		}
 	}
 }

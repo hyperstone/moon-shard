@@ -19,7 +19,7 @@ function add(data, socket, callback) {
 		} else {
 			callback(null, true);
 		}
-	})
+	});
 }
 
 function remove(data, socket, callback) {

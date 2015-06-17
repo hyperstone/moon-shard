@@ -3,7 +3,6 @@ var sio = require('socket.io');
 
 // require internal
 var sharedSession = require('./sessions').shared;
-var session = require('./sessions').session;
 var register = require('./register');
 var settings = require('./settings');
 

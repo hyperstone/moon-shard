@@ -39,7 +39,7 @@ function verifyEmail(data, callback) {
 	} else {
 		db.model.User.findOne({email: data.email}, '', function (err, user) {
 			if (user) {
-				callback(null, 2)
+				callback(null, 2);
 			} else {
 				emailExistence.check(data.email, function(err, res){
 					if (res !== 250) {

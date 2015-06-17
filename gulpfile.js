@@ -2,7 +2,7 @@ var gulp = require('gulp');
 var browserify = require('gulp-browserify');
 var uglify = require('gulp-uglify');
 var rename = require('gulp-rename');
-var source = require('vinyl-source-stream');
+// var source = require('vinyl-source-stream');
 var reactify = require('reactify');
 var streamify = require('gulp-streamify');
 var download = require('gulp-download');
@@ -31,7 +31,7 @@ var path = {
 var url = {
 	semanticUI: 'https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.12.3/semantic.min.js',
 	jQuery: 'https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js'
-}
+};
 
 var browserifyArguments = {
 	transform: [reactify],
@@ -99,7 +99,7 @@ gulp.task('production', function (callback) {
 		'buildUgly',
 		callback
 	);
-})
+});
 
 gulp.task('default', function (callback) {
 	runSequence(
