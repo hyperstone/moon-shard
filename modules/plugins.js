@@ -9,11 +9,11 @@ function bind(socket, name) {
 	var conf = JSON.parse(fs.readFileSync(path.join(__dirname, '..', config.plugins.path, name, 'plugin.json'), 'utf8'));
 	for (var fun in conf.binds) {
 		if (conf.binds[fun].data) {
-			socket.on(fun, function(data, callback){
+			socket.on(name + '.' + fun, function(data, callback){
 				require(path.join(__dirname, '..', config.plugins.path, name, 'plugin'))[fun](data, socket, callback);
 			})
 		} else {
-			socket.on(fun, function(callback){
+			socket.on(name + '.' + fun, function(callback){
 				require(path.join(__dirname, '..', config.plugins.path, name, 'plugin'))[fun](socket, callback);
 			})
 		}
@@ -25,7 +25,7 @@ function db(mongoose, model, name) {
 	if (conf.database.required) {
 		model[name] = {};
 		for (var m in conf.database.models) {
-			model[name][m] = mongoose.model(m, conf.database.models[m]);
+			model[name][m] = mongoose.model(name + '.' + m, conf.database.models[m]);
 		}
 		require(path.join(__dirname, '..', config.plugins.path, name, 'plugin')).setModel(model[name]);
 	}
