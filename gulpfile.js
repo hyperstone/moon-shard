@@ -2,7 +2,6 @@ var gulp = require('gulp');
 var browserify = require('gulp-browserify');
 var uglify = require('gulp-uglify');
 var rename = require('gulp-rename');
-// var source = require('vinyl-source-stream');
 var reactify = require('reactify');
 var streamify = require('gulp-streamify');
 var download = require('gulp-download');
@@ -110,6 +109,7 @@ gulp.task('default', function (callback) {
 	);
 });
 
+// var source = require('vinyl-source-stream');
 // var watchify = require('watchify');
 // gulp.task('watch', function () {
 // 	gulp.watch(path.HTML, ['copy']);
