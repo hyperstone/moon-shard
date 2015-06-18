@@ -96,9 +96,10 @@ describe('login', function () {
 
 	after(function (done) {
 		child.stop();
-		setTimeout(function () {
+		db.model.User.remove({username: 'test'}, function(err) {
+			expect(err).to.be.eql(null);
 			done();
-		}, 1000);
+		});
 	});
 });
 

@@ -6,6 +6,7 @@ var config = require('./config');
 var plugins = require('./plugins');
 
 var model = {};
+mongoose.connect(config.db.main);
 
 function buildSettings() {
 	var settings = {};
@@ -16,7 +17,6 @@ function buildSettings() {
 }
 
 function setup() {
-	mongoose.connect(config.db.main);
 	model.User = mongoose.model('User', {username: String, password: String, email: String, salt: String,
 		settings: buildSettings()});
 	plugins.db(mongoose, model);

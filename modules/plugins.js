@@ -5,8 +5,12 @@ var path = require('path');
 // require internal
 var config = require('./config');
 
+function getConf(name) {
+	return JSON.parse(fs.readFileSync(path.join(__dirname, '..', config.plugins.path, name, 'plugin.json'), 'utf8'));
+}
+
 function bind(socket, name) {
-	var conf = JSON.parse(fs.readFileSync(path.join(__dirname, '..', config.plugins.path, name, 'plugin.json'), 'utf8'));
+	var conf = getConf(name);
 	for (var fun in conf.binds) {
 		if (conf.binds[fun].data) {
 			socket.on(name + '.' + fun, function(data, callback){
@@ -21,7 +25,7 @@ function bind(socket, name) {
 }
 
 function db(mongoose, model, name) {
-	var conf = JSON.parse(fs.readFileSync(path.join(__dirname, '..', config.plugins.path, name, 'plugin.json'), 'utf8'));
+	var conf = getConf(name);
 	if (conf.database.required) {
 		model[name] = {};
 		for (var m in conf.database.models) {
@@ -43,4 +47,12 @@ function databaseInit(mongoose, model) {
 	});
 }
 
-module.exports = {bind: bindPlugins, db: databaseInit};
+function getTests() {
+	var tests = {};
+	config.plugins.load.forEach(function (plugin) {
+		tests[plugin] = require(path.join(__dirname, '..', config.plugins.path, plugin, 'test'));
+	});
+	return tests;
+}
+
+module.exports = {bind: bindPlugins, db: databaseInit, test: getTests};
