@@ -6,6 +6,8 @@ var sharedSession = require('./sessions').shared;
 var register = require('./register');
 var settings = require('./settings');
 
+// require plugins
+var links = require('../plugins/links/plugin');
 
 // set up log
 var log = require('./log').createNamespace({
@@ -50,7 +52,15 @@ function init (servers) {
 		socket.on('get_settings', function (callback) {
 			settings.get(socket, callback);
 		});
-		require('./plugins').bind(socket);
+		socket.on('links.add', function(data, callback) {
+			links.add(data, socket, callback);
+		});
+		socket.on('links.get', function(callback) {
+			links.get(socket, callback);
+		});
+		socket.on('links.remove', function(data, callback) {
+			links.remove(data, socket, callback);
+		});
 	});
 }
 

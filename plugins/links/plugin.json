@@ -1,9 +1,4 @@
 {
-	"binds": {
-		"get": {"function": "get", "data": false},
-		"add": {"function": "add", "data": true},
-		"remove": {"function": "remove", "data": true}
-	},
 	"database": {
 		"required": true,
 		"models": {
