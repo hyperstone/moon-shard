@@ -10,6 +10,4 @@ before_install:
   - npm install
   - npm install -g mocha
   - npm install gulp
-install:
-  - gulp
 script: mocha test
