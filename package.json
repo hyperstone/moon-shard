@@ -4,7 +4,8 @@
   "description": "Best Home Page EU/W",
   "main": "index.js",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "postinstall": "gulp"
   },
   "repository": {
     "type": "git",

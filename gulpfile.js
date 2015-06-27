@@ -9,10 +9,10 @@ var runSequence = require('run-sequence');
 
 var path = {
 	HTML: 'web/src/index.html',
-	
+
 	OUT: 'build.js',
 	MINIFIED_OUT: 'build.min.js',
-	
+
 	DEST: 'web/dist',
 	DEST_BUILD: 'web/dist/build',
 	DEST_SRC: 'web/dist/src',
@@ -72,7 +72,6 @@ gulp.task('downloadJQuery', function () {
 gulp.task('build', function () {
 	return gulp.src(path.ENTRY_POINT)
 		.pipe(browserify(browserifyArguments))
-		// .pipe(streamify(uglify()))
 		.pipe(rename(function (path) {
 			path.basename = 'app';
 			path.extname = '.js';
