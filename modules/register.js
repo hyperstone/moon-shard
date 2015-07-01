@@ -1,6 +1,5 @@
 // require external
 var validator = require('validator');
-var emailExistence = require('email-existence');
 
 // require internal
 var db = require('./db');
@@ -41,13 +40,7 @@ function verifyEmail(data, callback) {
 			if (user) {
 				callback(null, 2);
 			} else {
-				emailExistence.check(data.email, function(err, res){
-					if (res !== 250) {
-						callback(null, 3);
-					} else {
-						callback(null, 0);
-					}
-				});
+				callback(null, 0);
 			}
 		});
 	}
