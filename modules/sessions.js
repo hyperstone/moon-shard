@@ -28,6 +28,18 @@ function verify (socket, callback) {
 	}
 }
 
+function auth(socket, target, callback, data) {
+	if (socket.handshake.session.loggedIn) {
+		if (data) {
+			target(data, socket, callback);
+		} else {
+			target(socket, callback);
+		}
+	} else {
+		callback(true);
+	}
+}
+
 module.exports = {
 	session: session,
 	shared: sharedSession,

@@ -5,9 +5,11 @@ var sio = require('socket.io');
 var sharedSession = require('./sessions').shared;
 var register = require('./register');
 var settings = require('./settings');
+var sessions = require('./sessions');
 
 // require plugins
 var links = require('../plugins/links/plugin');
+var isup = require('../plugins/isup/plugin');
 
 // set up log
 var log = require('./log').createNamespace({
@@ -47,19 +49,22 @@ function init (servers) {
 			register.verifyEmail(data, socket, callback);
 		});
 		socket.on('set_settings', function (data, callback) {
-			settings.set(data, socket, callback);
+			sessions.auth(socket, settings.set, callback, data);
 		});
 		socket.on('get_settings', function (callback) {
-			settings.get(socket, callback);
+			sessions.auth(socket, settings.get, callback);
 		});
 		socket.on('links.add', function(data, callback) {
-			links.add(data, socket, callback);
+			sessions.auth(socket, links.add, callback, data);
 		});
 		socket.on('links.get', function(callback) {
-			links.get(socket, callback);
+			sessions.auth(socket, links.get, callback);
 		});
 		socket.on('links.remove', function(data, callback) {
-			links.remove(data, socket, callback);
+			sessions.auth(socket, links.remove, callback, data);
+		});
+		socket.on('isup.check', function(data, callback) {
+			sessions.auth(socket, isup, callback, data);
 		});
 	});
 }
