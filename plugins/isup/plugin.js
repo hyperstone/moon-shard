@@ -2,7 +2,7 @@
 var http = require('http');
 
 function handle(data, socket, callback) {
-	if (!data.name || data.name.match('[^.\-0-9a-zA-Z]')) {
+	if (!data || !data.name || data.name.match('[^.\-0-9a-zA-Z]')) {
 		callback(true);
 	}
 	else {
