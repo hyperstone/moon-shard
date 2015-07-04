@@ -67,7 +67,7 @@ function init (servers) {
 		socket.on('isup.check', function(data, callback) {
 			sessions.auth(socket, isup, callback, data);
 		});
-    socket.on('notepad.set', function(data, callback) {
+		socket.on('notepad.set', function(data, callback) {
 			sessions.auth(socket, notepad.set, callback, data);
 		});
 		socket.on('notepad.get', function(callback) {

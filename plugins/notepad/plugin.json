@@ -5,7 +5,7 @@
 			"Notes": {"text": "string", "user": "string"}
 		}
 	},
-  "config": {
-    "max_length": 1048576
-  }
+	"config": {
+		"max_length": 1048576
+	}
 }

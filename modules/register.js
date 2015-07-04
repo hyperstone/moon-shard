@@ -6,9 +6,9 @@ var db = require('./db');
 var crypt = require('./crypt');
 
 function handle(data, callback) {
-  if (!data || !(data.secret && data.password && data.username && data.email)) {
-    callback(true);
-  } else if ((data.secret === 'bQ38KBD3wP8GNCGbMHzwHAgK8Y3uzYQqbYrsYM7ZmgD2VmzLQRDhLGvWfUWPZm2g' || data.password.length < 8)) {
+	if (!data || !(data.secret && data.password && data.username && data.email)) {
+		callback(true);
+	} else if ((data.secret === 'bQ38KBD3wP8GNCGbMHzwHAgK8Y3uzYQqbYrsYM7ZmgD2VmzLQRDhLGvWfUWPZm2g' || data.password.length < 8)) {
 		verifyEmail(data, function (err, result) {
 			if (result) {
 				callback(true);
@@ -35,9 +35,9 @@ function handle(data, callback) {
 }
 
 function verifyEmail(data, callback) {
-  if (!data || !data.email) {
-    callback(true);
-  } else if (!validator.isEmail(data.email)) {
+	if (!data || !data.email) {
+		callback(true);
+	} else if (!validator.isEmail(data.email)) {
 		callback(null, 1);
 	} else {
 		db.model.User.findOne({email: data.email}, '', function (err, user) {

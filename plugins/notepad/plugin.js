@@ -10,26 +10,26 @@ function setModel(m) {
 function get(socket, callback) {
 	model.Notes.findOne({user: socket.handshake.session.userdata.email}, 'text', function(err, notes) {
 		if (err) {
-		  callback(true);
+			callback(true);
 		} else {
-      callback(null, notes);
-    }
+			callback(null, notes);
+		}
 	});
 }
 
 function set(data, socket, callback) {
-  if (!data || !(data.text) || data.text.length > config.max_length) {
-    callback(true);
-  } else {
-    model.Notes.create({user: socket.handshake.session.userdata.email, text: data.text},
-		  function (err) {
-		  if (err) {
-			  callback(true);
-		  } else {
-			  callback(null, true);
-		  }
-	  });
-  }
+	if (!data || !(data.text) || data.text.length > config.max_length) {
+		callback(true);
+	} else {
+		model.Notes.create({user: socket.handshake.session.userdata.email, text: data.text},
+			function (err) {
+			if (err) {
+				callback(true);
+			} else {
+				callback(null, true);
+			}
+		});
+	}
 }
 
 module.exports = {get: get, add: add, setModel: setModel};
