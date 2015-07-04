@@ -10,6 +10,7 @@ var sessions = require('./sessions');
 // require plugins
 var links = require('../plugins/links/plugin');
 var isup = require('../plugins/isup/plugin');
+var notepad = require('../plugins/notepad/plugin');
 
 // set up log
 var log = require('./log').createNamespace({
@@ -65,6 +66,12 @@ function init (servers) {
 		});
 		socket.on('isup.check', function(data, callback) {
 			sessions.auth(socket, isup, callback, data);
+		});
+    socket.on('notepad.set', function(data, callback) {
+			sessions.auth(socket, notepad.set, callback, data);
+		});
+		socket.on('notepad.get', function(callback) {
+			sessions.auth(socket, notepad.get, callback);
 		});
 	});
 }

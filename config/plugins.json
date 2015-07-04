@@ -1,6 +1,8 @@
 {
 	"path": "plugins",
 	"load": [
-		"links"
+		"links",
+    "isup",
+    "notepad"
 	]
 }

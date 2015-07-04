@@ -7,7 +7,11 @@ function setModel(m) {
 
 function get(socket, callback) {
 	model.Link.find({user: socket.handshake.session.userdata.email}, 'name url icon', function(err, links) {
-		callback(null, links);
+		if (err) {
+		  callback(true);
+		} else {
+      callback(null, links);
+    }
 	});
 }
 

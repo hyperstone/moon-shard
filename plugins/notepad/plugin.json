@@ -1,0 +1,11 @@
+{
+	"database": {
+		"required": true,
+		"models": {
+			"Notes": {"text": "string", "user": "string"}
+		}
+	},
+  "config": {
+    "max_length": 1048576
+  }
+}
